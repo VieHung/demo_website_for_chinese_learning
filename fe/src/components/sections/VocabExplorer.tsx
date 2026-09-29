@@ -16,12 +16,20 @@ import {
 
 interface VocabExplorerProps {
   words: VocabWord[];
+  initialSearch?: string;
 }
 
-export const VocabExplorer: React.FC<VocabExplorerProps> = ({ words }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+export const VocabExplorer: React.FC<VocabExplorerProps> = ({ words, initialSearch = "" }) => {
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [selectedLevel, setSelectedLevel] = useState<HSKLevel | 0>(0);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  // Update searchTerm when initialSearch changes
+  React.useEffect(() => {
+    if (initialSearch) {
+      setSearchTerm(initialSearch);
+    }
+  }, [initialSearch]);
 
   const filteredWords = words.filter((word) => {
     const matchesLevel = selectedLevel === 0 || word.hskLevel === selectedLevel;
@@ -45,8 +53,8 @@ export const VocabExplorer: React.FC<VocabExplorerProps> = ({ words }) => {
         <div>
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
             <span>Kho Từ Vựng HSK Chuẩn</span>
-            <span className="text-xs bg-red-950 text-red-300 border border-red-800 px-2 py-0.5 rounded-full font-normal">
-              {filteredWords.length} từ
+            <span className="text-sm text-stone-400 font-normal">
+              ({filteredWords.length} từ vựng)
             </span>
           </h2>
           <p className="text-xs text-stone-400 mt-1">
@@ -113,14 +121,14 @@ export const VocabExplorer: React.FC<VocabExplorerProps> = ({ words }) => {
                 className="bg-stone-900/90 border border-stone-800 hover:border-stone-700 rounded-2xl p-5 transition-all duration-200 hover:shadow-xl hover:shadow-black/40 flex flex-col justify-between"
               >
                 <div>
-                  {/* Top tags */}
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-red-950/80 text-red-300 border border-red-800/40">
+                  {/* Top info */}
+                  <div className="flex items-center gap-2 mb-3 text-xs">
+                    <span className="font-bold text-amber-400 font-mono">
                       HSK {word.hskLevel}
                     </span>
                     {word.category && (
-                      <span className="text-[11px] font-medium text-stone-400 bg-stone-800/60 px-2 py-0.5 rounded">
-                        {word.category}
+                      <span className="text-stone-400 font-medium">
+                        • {word.category}
                       </span>
                     )}
                   </div>

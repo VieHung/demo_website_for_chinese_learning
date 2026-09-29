@@ -1,11 +1,17 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight, Play, Trophy, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Trophy,
+  ChevronDown,
+} from "lucide-react";
 
 interface SlideData {
   image: string;
-  badge: string;
   hanzi: string;
   pinyin: string;
   translation: string;
@@ -18,7 +24,6 @@ interface SlideData {
 const HERO_SLIDES: SlideData[] = [
   {
     image: "/images/hero/slide1.jpg",
-    badge: "华语通 • HSK 1 - 6 全阶通关",
     hanzi: "书山有路勤为径，学海无涯苦作舟",
     pinyin: "Shū shān yǒu lù qín wéi jìng, xué hǎi wú yá kǔ zuò zhōu",
     translation: "Núi sách có đường, siêng năng là lối — Biển học vô bờ, bền bỉ làm thuyền",
@@ -30,7 +35,6 @@ const HERO_SLIDES: SlideData[] = [
   },
   {
     image: "/images/hero/slide2.jpg",
-    badge: "循序渐进 • 循理而行",
     hanzi: "温故而知新，可以为师矣",
     pinyin: "Wēn gù ér zhī xīn, kě yǐ wéi shī yǐ",
     translation: "Ôn lại điều cũ để thấu hiểu điều mới, ắt có thể làm thầy",
@@ -42,7 +46,6 @@ const HERO_SLIDES: SlideData[] = [
   },
   {
     image: "/images/hero/slide3.jpg",
-    badge: "决胜巅峰 • 破浪前行",
     hanzi: "长风破浪会有时，直挂云帆济沧海",
     pinyin: "Cháng fēng pò làng huì yǒu shí, zhí guà yún fān jì cāng hǎi",
     translation: "Sẽ có ngày cưỡi gió rẽ sóng, giương buồm mây vượt biển lớn",
@@ -55,12 +58,12 @@ const HERO_SLIDES: SlideData[] = [
 ];
 
 interface HeroBannerProps {
-  onStartFlashcard: () => void;
-  onStartQuiz: () => void;
-  onExploreVocab: () => void;
-  onPracticePinyin: () => void;
-  streakCount: number;
-  totalWords: number;
+  onStartFlashcard?: () => void;
+  onStartQuiz?: () => void;
+  onExploreVocab?: () => void;
+  onPracticePinyin?: () => void;
+  streakCount?: number;
+  totalWords?: number;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
@@ -69,9 +72,15 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   onExploreVocab,
   onPracticePinyin,
 }) => {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const autoplayRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Mobile Touch Swipe Handling
+  const touchStartXRef = useRef<number | null>(null);
+  const touchEndXRef = useRef<number | null>(null);
+  const minSwipeDistance = 45;
 
   useEffect(() => {
     setIsLoaded(true);
@@ -108,10 +117,64 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
     };
   }, [isLoaded, startAutoplay]);
 
+  // Touch event handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchEndXRef.current = null;
+    touchStartXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartXRef.current || !touchEndXRef.current) return;
+    const distance = touchStartXRef.current - touchEndXRef.current;
+    if (distance > minSwipeDistance) {
+      // Swiped Left -> Next Slide
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      // Swiped Right -> Prev Slide
+      prevSlide();
+    }
+  };
+
   const currentSlide = HERO_SLIDES[activeIndex];
 
+  const handlePrimaryClick = () => {
+    if (activeIndex === 0) {
+      onStartFlashcard ? onStartFlashcard() : router.push("/flashcards");
+    } else if (activeIndex === 1) {
+      onStartFlashcard ? onStartFlashcard() : router.push("/flashcards");
+    } else {
+      onStartQuiz ? onStartQuiz() : router.push("/trac-nghiem");
+    }
+  };
+
+  const handleSecondaryClick = () => {
+    if (activeIndex === 0) {
+      onExploreVocab ? onExploreVocab() : router.push("/tu-vung");
+    } else if (activeIndex === 1) {
+      onPracticePinyin ? onPracticePinyin() : router.push("/pinyin");
+    } else {
+      onExploreVocab ? onExploreVocab() : router.push("/tu-vung");
+    }
+  };
+
+  const scrollToContent = () => {
+    const el = document.getElementById("portal-content");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <section className="relative w-full h-screen min-h-[680px] max-h-[1080px] overflow-hidden bg-stone-950 select-none">
+    <section
+      className="relative w-full h-[calc(100dvh-64px)] md:h-[calc(100dvh-105px)] min-h-[520px] max-h-[1440px] overflow-hidden bg-stone-950 select-none flex flex-col justify-between"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Slide background layers with crossfade and Ken Burns zoom effect */}
       {HERO_SLIDES.map((slide, index) => {
         const isActive = index === activeIndex;
@@ -122,7 +185,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
             }`}
           >
-            {/* Background image container */}
+            {/* Background image container with cover & dynamic aspect ratio handling */}
             <div
               className={`absolute inset-0 bg-cover bg-center transition-transform duration-[10000ms] ease-out ${
                 isActive ? "scale-105" : "scale-100"
@@ -130,85 +193,76 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               style={{ backgroundImage: `url(${slide.image})` }}
             />
 
-            {/* Gradient Overlays for high readability and premium aesthetic */}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/60 to-stone-950/40" />
-            <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-950/40 to-transparent" />
+            {/* Gradient Overlays tailored for ultra-wides, laptops and mobile */}
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/70 sm:via-stone-950/60 to-stone-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-stone-950/95 via-stone-950/60 sm:via-stone-950/40 to-transparent" />
           </div>
         );
       })}
 
-      {/* Main Content Layout */}
-      <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
-        <div className="max-w-4xl py-12">
-
-          {/* Majestic Chinese Typography */}
-          <div className="mb-4">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-amber-100 font-serif tracking-wide leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+      {/* Main Content Layout (Vertically centered, responsive padding) */}
+      <div className="relative z-20 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col justify-center py-4 sm:py-8">
+        <div className="max-w-4xl">
+          {/* Majestic Chinese Typography (Adaptive for 360px mobile up to 4K displays) */}
+          <div className="mb-2 sm:mb-4">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-amber-100 font-serif tracking-wide leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
               {currentSlide.hanzi}
             </h1>
           </div>
 
           {/* Pinyin with tone markers */}
-          <div className="text-base sm:text-xl font-medium text-amber-400/95 tracking-wider font-sans mb-4 drop-shadow-md">
+          <div className="text-xs sm:text-base md:text-lg lg:text-xl font-medium text-amber-400/95 tracking-wide font-sans mb-3 sm:mb-5 drop-shadow-md">
             {currentSlide.pinyin}
           </div>
 
-          {/* Vietnamese Translation Banner */}
-          <div className="inline-block p-4 sm:p-5 rounded-2xl bg-stone-900/80 border border-amber-500/30 backdrop-blur-md mb-6 shadow-2xl">
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="w-2 h-2 rounded-full bg-red-500"></span>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300/80">
+          {/* Vietnamese Translation Card (Ergonomic padding on mobile) */}
+          <div className="inline-block p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-stone-900/85 border border-amber-500/30 backdrop-blur-md mb-3 sm:mb-6 shadow-2xl max-w-3xl">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-red-500"></span>
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-amber-300/90">
                 Bản dịch tiếng Việt
               </span>
               {currentSlide.authorNote && (
-                <span className="text-[11px] text-stone-400 font-medium ml-auto">
+                <span className="text-[10px] sm:text-[11px] text-stone-400 font-medium ml-auto">
                   ({currentSlide.authorNote})
                 </span>
               )}
             </div>
-            <p className="text-base sm:text-lg font-bold text-white leading-snug">
+            <p className="text-xs sm:text-base md:text-lg font-bold text-white leading-relaxed">
               “{currentSlide.translation}”
             </p>
           </div>
 
           {/* Subtitle Description */}
-          <p className="text-sm sm:text-base text-stone-300 max-w-2xl mb-8 leading-relaxed drop-shadow">
+          <p className="text-xs sm:text-sm md:text-base text-stone-300 max-w-2xl mb-5 sm:mb-8 leading-relaxed drop-shadow line-clamp-2 sm:line-clamp-none">
             {currentSlide.description}
           </p>
 
-          {/* Interactive CTAs */}
-          <div className="flex flex-wrap items-center gap-4">
+          {/* Interactive CTAs: Responsive 2-column grid on mobile, row on desktop */}
+          <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-row sm:items-center sm:gap-4 w-full sm:w-auto">
             <button
-              onClick={() => {
-                if (activeIndex === 0) onStartFlashcard();
-                else if (activeIndex === 1) onStartFlashcard();
-                else onStartQuiz();
-              }}
-              className="flex items-center space-x-2 px-7 py-4 rounded-xl bg-gradient-to-r from-red-600 via-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-bold text-sm shadow-2xl shadow-red-950/70 border border-red-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              onClick={handlePrimaryClick}
+              className="flex items-center justify-center space-x-1.5 sm:space-x-2 py-3 px-3 sm:py-3.5 sm:px-7 rounded-xl bg-gradient-to-r from-red-600 via-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-red-950/70 border border-red-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer text-center"
             >
-              <Play className="w-4 h-4 fill-white" />
-              <span>{currentSlide.primaryBtnText}</span>
+              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white shrink-0" />
+              <span className="truncate">{currentSlide.primaryBtnText}</span>
             </button>
 
             <button
-              onClick={() => {
-                if (activeIndex === 0) onExploreVocab();
-                else if (activeIndex === 1) onPracticePinyin();
-                else onExploreVocab();
-              }}
-              className="flex items-center space-x-2 px-6 py-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 text-stone-200 hover:text-white border border-stone-700/80 backdrop-blur-md font-semibold text-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
+              onClick={handleSecondaryClick}
+              className="flex items-center justify-center space-x-1.5 sm:space-x-2 py-3 px-3 sm:py-3.5 sm:px-6 rounded-xl bg-stone-900/85 hover:bg-stone-800 text-stone-200 hover:text-white border border-stone-700/80 backdrop-blur-md font-semibold text-xs sm:text-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg text-center"
             >
-              <Trophy className="w-4 h-4 text-amber-400" />
-              <span>{currentSlide.secondaryBtnText}</span>
+              <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
+              <span className="truncate">{currentSlide.secondaryBtnText}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Navigation Controls: Arrows */}
+      {/* Desktop Navigation Controls: Side Arrows (Hidden on mobile to prevent obstruction) */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-stone-900/60 hover:bg-red-600/80 text-stone-300 hover:text-white border border-stone-700/60 backdrop-blur-md transition-all hover:scale-110 active:scale-95"
+        className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-stone-900/70 hover:bg-red-600/80 text-stone-300 hover:text-white border border-stone-700/60 backdrop-blur-md transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-xl"
         aria-label="Slide trước"
       >
         <ChevronLeft className="w-5 h-5" />
@@ -216,33 +270,45 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-stone-900/60 hover:bg-red-600/80 text-stone-300 hover:text-white border border-stone-700/60 backdrop-blur-md transition-all hover:scale-110 active:scale-95"
+        className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-stone-900/70 hover:bg-red-600/80 text-stone-300 hover:text-white border border-stone-700/60 backdrop-blur-md transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-xl"
         aria-label="Slide sau"
       >
         <ChevronRight className="w-5 h-5" />
       </button>
 
-      {/* Slide Indicators: Dots and Counter */}
-      <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Dots */}
-        <div className="flex items-center space-x-2">
-          {HERO_SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => goToSlide(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === activeIndex
-                  ? "w-8 bg-gradient-to-r from-red-500 to-amber-400 shadow-md shadow-red-900/50"
-                  : "w-2 bg-stone-600/80 hover:bg-stone-400"
-              }`}
-              aria-label={`Đi tới slide ${idx + 1}`}
-            />
-          ))}
-        </div>
+      {/* Bottom Control Bar: Slide indicators, Scroll-down prompt & Counter */}
+      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3 sm:pb-5">
+        <div className="flex items-center justify-between border-t border-stone-800/60 pt-3">
+          {/* Dots Indicator & Mobile Mini chevrons */}
+          <div className="flex items-center space-x-2">
+            {HERO_SLIDES.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToSlide(idx)}
+                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === activeIndex
+                    ? "w-6 sm:w-8 bg-gradient-to-r from-red-500 to-amber-400 shadow-md shadow-red-900/50"
+                    : "w-1.5 sm:w-2 bg-stone-600/80 hover:bg-stone-400"
+                }`}
+                aria-label={`Đi tới slide ${idx + 1}`}
+              />
+            ))}
+          </div>
 
-        {/* Counter */}
-        <div className="px-3 py-1 rounded-full bg-stone-900/80 border border-stone-800 text-stone-400 text-xs font-mono backdrop-blur-md">
-          <span className="text-amber-300 font-bold">0{activeIndex + 1}</span> / 0{HERO_SLIDES.length}
+          {/* Scroll Down Cue (Clickable to jump to content below) */}
+          <button
+            onClick={scrollToContent}
+            className="flex items-center space-x-1.5 text-[11px] sm:text-xs text-stone-400 hover:text-amber-300 transition-colors group cursor-pointer"
+            title="Cuộn xuống xem nội dung"
+          >
+            <span className="hidden sm:inline">Khám phá nội dung</span>
+            <ChevronDown className="w-4 h-4 animate-bounce text-amber-400 group-hover:translate-y-0.5 transition-transform" />
+          </button>
+
+          {/* Slide Counter */}
+          <div className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-stone-900/80 border border-stone-800 text-stone-400 text-[10px] sm:text-xs font-mono backdrop-blur-md">
+            <span className="text-amber-300 font-bold">0{activeIndex + 1}</span> / 0{HERO_SLIDES.length}
+          </div>
         </div>
       </div>
     </section>

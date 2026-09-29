@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
+import { UserProgressProvider } from "@/context/UserProgressContext";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -14,10 +17,10 @@ const notoSerifSC = Noto_Serif_SC({
 });
 
 export const metadata: Metadata = {
-  title: "HuaYu Hub | Nền Tảng Ôn Tập & Luyện Thi Tiếng Trung HSK",
+  title: "SinnoChinese | Nền Tảng Học & Luyện Thi Tiếng Trung HSK",
   description:
-    "Hệ thống ôn tập tiếng Trung toàn diện: Thẻ ghi nhớ Flashcard 3D, Kho từ vựng HSK 1 - 4 kèm âm Hán-Việt, Trắc nghiệm phản xạ và Luyện phát âm chuẩn bản xứ.",
-  keywords: ["tiếng Trung", "HSK", "từ vựng HSK", "học tiếng Trung", "flashcard tiếng Trung", "âm Hán Việt", "pinyin"],
+    "SinnoChinese - Nền tảng học tiếng Trung trực tuyến toàn diện: Khóa học bài bản, Đọc song ngữ tương tác, Flashcards 3D, Kho ngữ pháp hệ thống và Đấu trường trắc nghiệm phản xạ HSK.",
+  keywords: ["SinnoChinese", "học tiếng Trung", "HSK", "bài đọc song ngữ", "flashcard tiếng Trung", "ngữ pháp tiếng Trung", "pinyin", "trắc nghiệm tiếng Trung"],
 };
 
 export default function RootLayout({
@@ -27,8 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${inter.variable} ${notoSerifSC.variable}`}>
-      <body className="min-h-screen flex flex-col bg-stone-950 text-stone-100 antialiased">
-        {children}
+      <body className="min-h-screen flex flex-col bg-stone-950 text-stone-100 antialiased selection:bg-red-600 selection:text-white">
+        <UserProgressProvider>
+          <Navbar />
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+          <Footer />
+        </UserProgressProvider>
       </body>
     </html>
   );

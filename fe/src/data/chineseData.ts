@@ -204,7 +204,7 @@ export const INITIAL_VOCAB_LIST: VocabWord[] = [
     ]
   },
 
-  // HSK 5
+  // HSK 5 (Cao cấp - Đàm phán, Xã hội, Tư duy phản biện)
   {
     id: "vocab-11",
     hanzi: "梦想",
@@ -241,28 +241,105 @@ export const INITIAL_VOCAB_LIST: VocabWord[] = [
       }
     ]
   },
-
-  // HSK 6
   {
     id: "vocab-13",
-    hanzi: "博大精深",
-    pinyin: "bódà jīngshēn",
-    hanViet: "Bác Đại Tinh Thâm",
-    meaning: "Uyên bác và tinh sâu, bao la sâu rộng (thường nói về văn hóa, tri thức)",
-    hskLevel: 6,
-    radical: "十 (Thập)",
-    strokeCount: 12,
-    category: "Thành ngữ (Thành ngữ cao cấp)",
+    hanzi: "投资",
+    pinyin: "tóuzī",
+    hanViet: "Đầu Tư",
+    meaning: "Đầu tư (tài chính, nguồn lực, thời gian)",
+    hskLevel: 5,
+    radical: "扌 (Thủ)",
+    strokeCount: 7,
+    category: "Kinh tế",
     examples: [
       {
-        hanzi: "中华文化源远流长，博大精深。",
-        pinyin: "Zhōnghuá wénhuà yuányuǎnbùliú, bódà jīngshēn.",
-        vietnamese: "Văn hóa Trung Hoa cội nguồn sâu xa, uyên bác và tinh sâu."
+        hanzi: "投资教育是对未来最好的投资。",
+        pinyin: "Tóuzī jiàoyù shì duì wèilái zuì hǎo de tóuzī.",
+        vietnamese: "Đầu tư cho giáo dục là khoản đầu tư tốt nhất cho tương lai."
+      },
+      {
+        hanzi: "他们公司决定在中国投资建厂。",
+        pinyin: "Tāmen gōngsī juédìng zài Zhōngguó tóuzī jiàn chǎng.",
+        vietnamese: "Công ty bọn họ quyết định đầu tư xây nhà máy tại Trung Quốc."
       }
     ]
   },
   {
     id: "vocab-14",
+    hanzi: "效率",
+    pinyin: "xiàolǜ",
+    hanViet: "Hiệu Suất",
+    meaning: "Năng suất, hiệu suất làm việc",
+    hskLevel: 5,
+    radical: "攵 (Phộc)",
+    strokeCount: 11,
+    category: "Công việc",
+    examples: [
+      {
+        hanzi: "提高工作效率是企业成功的关键。",
+        pinyin: "Tígāo gōngzuò xiàolǜ shì qǐyè chénggōng de guānjiàn.",
+        vietnamese: "Nâng cao hiệu suất làm việc là chìa khóa thành công của doanh nghiệp."
+      }
+    ]
+  },
+  {
+    id: "vocab-15",
+    hanzi: "珍惜",
+    pinyin: "zhēnxī",
+    hanViet: "Trân Tích",
+    meaning: "Trân trọng, quý trọng, gìn giữ",
+    hskLevel: 5,
+    radical: "王 (Ngọc)",
+    strokeCount: 10,
+    category: "Cảm xúc",
+    examples: [
+      {
+        hanzi: "我们要懂得珍惜当下的幸福与时光。",
+        pinyin: "Wǒmen yào dǒngdé zhēnxī dāngxià de xìngfú yǔ shíguāng.",
+        vietnamese: "Chúng ta cần biết trân trọng hạnh phúc và thời gian của hiện tại."
+      }
+    ]
+  },
+  {
+    id: "vocab-16",
+    hanzi: "谈判",
+    pinyin: "tánpàn",
+    hanViet: "Đàm Phán",
+    meaning: "Đàm phán, thương lượng, hiệp thương",
+    hskLevel: 5,
+    radical: "讠 (Ngôn)",
+    strokeCount: 15,
+    category: "Thương mại",
+    examples: [
+      {
+        hanzi: "双方经过友好谈判达成了合作协议。",
+        pinyin: "Shuāngfāng jīngguò yǒuhǎo tánpàn dáchéng le hézuò xiéyì.",
+        vietnamese: "Hai bên qua đàm phán hữu nghị đã đạt được thỏa thuận hợp tác."
+      }
+    ]
+  },
+
+  // HSK 6 (Bậc thầy / Tinh thông - Thành ngữ 4 chữ, Văn ngôn, Tư duy học thuật)
+  {
+    id: "vocab-17",
+    hanzi: "博大精深",
+    pinyin: "bódà jīngshēn",
+    hanViet: "Bác Đại Tinh Thâm",
+    meaning: "Uyên bác và tinh sâu, bao la sâu rộng (thường nói về văn hóa, tư tưởng)",
+    hskLevel: 6,
+    radical: "十 (Thập)",
+    strokeCount: 12,
+    category: "Thành ngữ",
+    examples: [
+      {
+        hanzi: "中华传统文化源远流长，博大精深。",
+        pinyin: "Zhōnghuá chuántǒng wénhuà yuányuǎnbùliú, bódà jīngshēn.",
+        vietnamese: "Văn hóa truyền thống Trung Hoa cội nguồn sâu xa, uyên bác và tinh sâu."
+      }
+    ]
+  },
+  {
+    id: "vocab-18",
     hanzi: "持之以恒",
     pinyin: "chí zhī yǐ héng",
     hanViet: "Trì Chi Dĩ Hằng",
@@ -270,12 +347,84 @@ export const INITIAL_VOCAB_LIST: VocabWord[] = [
     hskLevel: 6,
     radical: "扌 (Thủ)",
     strokeCount: 9,
-    category: "Thành ngữ (Ý chí)",
+    category: "Thành ngữ",
     examples: [
       {
         hanzi: "学语言最需要持之以恒的精神。",
         pinyin: "Xué yǔyán zuì xūyào chí zhī yǐ héng de jīngshén.",
         vietnamese: "Học ngôn ngữ cần nhất là tinh thần kiên trì bền bỉ đến cùng."
+      }
+    ]
+  },
+  {
+    id: "vocab-19",
+    hanzi: "未雨绸缪",
+    pinyin: "wèiyǔ chóumóu",
+    hanViet: "Vị Vũ Trù Mâu",
+    meaning: "Lo trước liệu sau, chuẩn bị phòng bị trước khi giông bão xảy đến",
+    hskLevel: 6,
+    radical: "一 (Nhất)",
+    strokeCount: 14,
+    category: "Thành ngữ",
+    examples: [
+      {
+        hanzi: "面对复杂的经济环境，企业必须未雨绸缪。",
+        pinyin: "Miànduì fùzá de jīngjì huánjìng, qǐyè bìxū wèiyǔ chóumóu.",
+        vietnamese: "Đối mặt với môi trường kinh tế phức tạp, doanh nghiệp phải lo liệu chu toàn từ trước."
+      }
+    ]
+  },
+  {
+    id: "vocab-20",
+    hanzi: "循序渐进",
+    pinyin: "xún xù jiàn jìn",
+    hanViet: "Tuần Tự Tiệm Tiến",
+    meaning: "Từng bước một tiến lên, học theo thứ tự từ dễ đến khó không đốt cháy giai đoạn",
+    hskLevel: 6,
+    radical: "彳 (Xích)",
+    strokeCount: 12,
+    category: "Thành ngữ",
+    examples: [
+      {
+        hanzi: "学习汉语要循序渐进，不能急于求成。",
+        pinyin: "Xuéxí hànyǔ yào xún xù jiàn jìn, bùnéng jíyú qiú chéng.",
+        vietnamese: "Học tiếng Hán phải theo trình tự từng bước, không thể nóng vội cầu thành."
+      }
+    ]
+  },
+  {
+    id: "vocab-21",
+    hanzi: "精益求精",
+    pinyin: "jīng yì qiú jīng",
+    hanViet: "Tinh Ích Cầu Tinh",
+    meaning: "Đã tinh xảo lại càng muốn tinh xảo hơn, luôn theo đuổi sự hoàn hảo xuất sắc",
+    hskLevel: 6,
+    radical: "米 (Mễ)",
+    strokeCount: 14,
+    category: "Thành ngữ",
+    examples: [
+      {
+        hanzi: "他对待科研工作总是精益求精，一丝不苟。",
+        pinyin: "Tā duìdài kēyán gōngzuò zǒngshì jīng yì qiú jīng, yìsī bù gǒu.",
+        vietnamese: "Anh ấy đối với nghiên cứu khoa học luôn cầu toàn xuất sắc, cẩn trọng từng li từng tí."
+      }
+    ]
+  },
+  {
+    id: "vocab-22",
+    hanzi: "学以致用",
+    pinyin: "xué yǐ zhì yòng",
+    hanViet: "Học Dĩ Trí Dụng",
+    meaning: "Học đi đôi với hành, vận dụng tri thức đã học vào thực tiễn cuộc sống",
+    hskLevel: 6,
+    radical: "子 (Tử)",
+    strokeCount: 8,
+    category: "Thành ngữ",
+    examples: [
+      {
+        hanzi: "读书的目的不仅在于积累知识，更在于学以致用。",
+        pinyin: "Dúshū de mùdì bùjǐn zàiyú jīlěi zhīshi, gèng zàiyú xué yǐ zhì yòng.",
+        vietnamese: "Mục đích đọc sách không chỉ tích lũy kiến thức, mà cốt lõi là ứng dụng vào thực tế."
       }
     ]
   }
@@ -350,6 +499,51 @@ export const INITIAL_QUIZ_LIST: QuizQuestion[] = [
     ],
     correctAnswer: "Bền bỉ kiên trì đến cùng",
     explanation: "'持之以恒' biểu thị thái độ kiên trì giữ vững hành động liên tục không ngừng nghỉ.",
+    hskLevel: 6
+  },
+  {
+    id: "q-7",
+    type: "hanzi-to-meaning",
+    prompt: "Nghĩa của từ '投资' (tóuzī) là gì?",
+    subPrompt: "HSK 5 - Thuật ngữ kinh tế & đời sống",
+    options: ["Đầu tư", "Tiết kiệm", "Thu hồi", "Tiêu dùng"],
+    correctAnswer: "Đầu tư",
+    explanation: "'投资' (Âm Hán Việt: Đầu Tư) có nghĩa là bỏ vốn, thời gian hoặc nguồn lực nhằm thu lại lợi ích tương lai.",
+    hskLevel: 5
+  },
+  {
+    id: "q-8",
+    type: "fill-blank",
+    prompt: "Điền từ thích hợp vào chỗ trống:",
+    subPrompt: "提高工作_____是企业成功的关键。",
+    options: ["效率", "深刻", "梦想", "简单"],
+    correctAnswer: "效率",
+    explanation: "'提高工作效率' nghĩa là nâng cao hiệu suất làm việc.",
+    hskLevel: 5
+  },
+  {
+    id: "q-9",
+    type: "hanzi-to-meaning",
+    prompt: "Thành ngữ HSK 6 '未雨绸缪' (wèiyǔ chóumóu) có nghĩa là gì?",
+    subPrompt: "HSK 6 - Thành ngữ tư duy chiến lược",
+    options: [
+      "Lo trước phòng bị chu toàn trước khi xảy ra sự cố",
+      "Mưa thuận gió hòa",
+      "Nước đến chân mới nhảy",
+      "Gió cuốn mây tan"
+    ],
+    correctAnswer: "Lo trước phòng bị chu toàn trước khi xảy ra sự cố",
+    explanation: "'未雨绸缪' ví với việc chuẩn bị trước phương án khi giông bão chưa tới để tránh tổn thất.",
+    hskLevel: 6
+  },
+  {
+    id: "q-10",
+    type: "fill-blank",
+    prompt: "Chọn thành ngữ HSK 6 thích hợp điền vào câu:",
+    subPrompt: "学习汉语必须_____，不能急于求成。",
+    options: ["循序渐进", "半途而废", "走马观花", "盲目行动"],
+    correctAnswer: "循序渐进",
+    explanation: "'循序渐进' (Tuần tự tiệm tiến): Từng bước tiến lên theo trình tự từ dễ đến khó, đối lập với '急于求成' (nóng vội cầu thành).",
     hskLevel: 6
   }
 ];

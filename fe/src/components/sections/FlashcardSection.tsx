@@ -88,10 +88,7 @@ export const FlashcardSection: React.FC<FlashcardSectionProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            <span>Thẻ Ghi Nhớ Flashcard</span>
-            <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-normal">
-              3D Flip
-            </span>
+            Thẻ Ghi Nhớ Flashcard
           </h2>
           <p className="text-xs text-stone-400 mt-0.5">
             Nhấn vào thẻ hoặc biểu tượng lật để xem giải nghĩa, âm Hán Việt và câu ví dụ
@@ -129,8 +126,8 @@ export const FlashcardSection: React.FC<FlashcardSectionProps> = ({
         <div className="flex items-center gap-2">
           <span>Thẻ {currentIndex + 1} / {filteredWords.length}</span>
           {isCurrentMastered && (
-            <span className="text-emerald-400 flex items-center gap-1 font-medium bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
-              <CheckCircle2 className="w-3 h-3" /> Đã thuộc
+            <span className="text-amber-400 flex items-center gap-1 font-semibold">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Đã thuộc
             </span>
           )}
         </div>
@@ -155,7 +152,7 @@ export const FlashcardSection: React.FC<FlashcardSectionProps> = ({
       {/* Progress Bar */}
       <div className="w-full h-1.5 bg-stone-800 rounded-full mb-8 overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-red-600 via-amber-500 to-emerald-500 transition-all duration-300"
+          className="h-full bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / filteredWords.length) * 100}%` }}
         />
       </div>
@@ -317,7 +314,7 @@ export const FlashcardSection: React.FC<FlashcardSectionProps> = ({
 
           <button
             onClick={handleMarkMastered}
-            className="flex items-center space-x-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-medium text-sm shadow-lg shadow-emerald-900/30 transition-all hover:scale-105 active:scale-95"
+            className="flex items-center space-x-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-white font-bold text-sm shadow-lg shadow-amber-950/40 transition-all hover:scale-105 active:scale-95"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span>Đã thuộc từ này</span>

@@ -127,8 +127,8 @@ export const QuizSection: React.FC<QuizSectionProps> = ({
         <div>
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
             <span>Trắc Nghiệm HSK Nhanh</span>
-            <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-normal">
-              Câu {currentIndex + 1}/{questions.length}
+            <span className="text-xs text-amber-400 font-mono">
+              (Câu {currentIndex + 1}/{questions.length})
             </span>
           </h2>
           <p className="text-xs text-stone-400 mt-1">Củng cố phản xạ nhận diện chữ Hán và ý nghĩa</p>

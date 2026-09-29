@@ -62,8 +62,8 @@ export const PinyinPracticeSection: React.FC = () => {
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-white flex items-center gap-2">
           <span>Bảng Ngữ Âm & Luyện Phát Âm Pinyin</span>
-          <span className="text-xs bg-red-950 text-red-300 border border-red-800 px-2 py-0.5 rounded-full font-normal">
-            Chuẩn Bắc Kinh
+          <span className="text-xs text-amber-400 font-normal">
+            (Chuẩn Bắc Kinh)
           </span>
         </h2>
         <p className="text-xs text-stone-400 mt-1">
@@ -117,7 +117,7 @@ export const PinyinPracticeSection: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-bold text-white text-base">{item.tone}</span>
-                    <span className="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono font-bold">
+                    <span className="text-sm font-mono font-bold text-amber-400">
                       {item.symbol}
                     </span>
                   </div>
